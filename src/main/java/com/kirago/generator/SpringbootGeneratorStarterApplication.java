@@ -1,11 +1,9 @@
 package com.kirago.generator;
 
-import com.kirago.generator.config.XMLConfig;
 import com.kirago.generator.plugins.GeneratorPlugin;
 import com.kirago.generator.utils.XMLConfigUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
