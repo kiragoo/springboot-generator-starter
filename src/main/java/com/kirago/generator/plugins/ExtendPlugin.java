@@ -1,7 +1,9 @@
 package com.kirago.generator.plugins;
 
 import com.google.common.base.CaseFormat;
+import com.kirago.generator.config.XMLConfig;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Field;
@@ -27,7 +29,10 @@ import java.util.Map;
  * @author kirago
  * @date 2019/1/26 11:07
  */
+@Slf4j
 public class ExtendPlugin extends MapperPlugin {
+    
+    private final XMLConfig xmlConfig = new XMLConfig();
 
     /**
      * 是否生成Swagger2的相关注解[需引入spring fox的坐标]
@@ -186,7 +191,7 @@ public class ExtendPlugin extends MapperPlugin {
             Map<String, Object> data = new HashMap<>();
             data.put("date", dateFormatter.format(new Date()));
             data.put("remark", remark);
-            data.put("author", System.getenv().get("USER"));
+            data.put("author", getUser());
             String modelNameUpperCamel = !StringUtils.isEmpty(modelName) ? tableNameConvertUpperCamel(tableName) : modelName;
             data.put("modelNameUpperCamel", modelNameUpperCamel);
             data.put("modelNameLowerCamel", tableNameConvertLowerCamel(tableName));
@@ -194,24 +199,24 @@ public class ExtendPlugin extends MapperPlugin {
 
             //是否生成service层代码
             if(IS_GENERATE_SERVICE_LAYER) {
-                File file = new File("springboot-generator-starter/src/main/java/com/kirago/generator/service/" + modelNameUpperCamel + "Service.java");
+                File file = new File( xmlConfig.PATH_JAVASERVICEGENERATOR_PATH + modelNameUpperCamel + "Service.java");
                 if (!file.getParentFile().exists()) {
                     file.getParentFile().mkdirs();
                 }
                 cfg.getTemplate("service.ftl").process(data,
                         new FileWriter(file));
-                System.out.println(modelNameUpperCamel + "Service.java 生成成功");
+                log.info(modelNameUpperCamel + "Service.java 生成成功");
             }
 
             //是否生成controller层代码
             if(IS_GENERATE_CONTROLLER_LAYER) {
-                File fileController = new File("springboot-generator-starter/src/main/java/com/kirago/generator/controller/" + modelNameUpperCamel + "Controller.java");
+                File fileController = new File(xmlConfig.PATH_JAVACONTROLLERGENERATOR_PATH + modelNameUpperCamel + "Controller.java");
                 if (!fileController.getParentFile().exists()) {
                     fileController.getParentFile().mkdirs();
                 }
                 cfg.getTemplate("controller.ftl").process(data,
                         new FileWriter(fileController));
-                System.out.println(modelNameUpperCamel + "Controller.java 生成成功");
+                log.info(modelNameUpperCamel + "Controller.java 生成成功");
             }
 
         } catch (Exception e) {
@@ -234,5 +239,13 @@ public class ExtendPlugin extends MapperPlugin {
     private static String tableNameConvertUpperCamel(String tableName) {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName.toLowerCase());
 
+    }
+    
+    private String getUser(){
+        if(System.getenv("OS").toLowerCase().startsWith("window")){
+            return System.getenv("USERNAME");
+        }else {
+            return System.getenv("USER");
+        }
     }
 }

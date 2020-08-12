@@ -1,0 +1,21 @@
+path:
+  javaModelGenerator:
+    targetPackage: com.kirago.generator.entity
+    targetProject: src/main/java
+  sqlMapGenerator:
+    targetPackage: mappers
+    targetProject: src/main/resources
+  javaClientGenerator:
+    targetPackage: com.kirago.generator.mapper
+    targetProject: src/main/java
+  javaServiceGenerator:
+    path: src/main/java/com/kirago/generator/service/
+  javaControllerGenerator:
+    path: src/main/java/com/kirago/generator/controller/
+  
+  
+dbconfig:
+  driverClass: com.mysql.jdbc.Driver
+  connectionUrl: jdbc:mysql://127.0.0.1:3306/generator
+  userId: root
+  password: root

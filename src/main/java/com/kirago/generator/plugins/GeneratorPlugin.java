@@ -5,6 +5,7 @@ import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -20,8 +21,9 @@ import java.util.List;
 
 
 @Slf4j
+@Component
 public class GeneratorPlugin {
-    public static void main(String[] args) throws Exception {
+    public void generator() throws Exception {
         File configFile =  ResourceUtils.getFile("classpath:generator/generatorConfig.xml");
         List<String> warnings = new ArrayList<>();
         boolean overwrite = true;
