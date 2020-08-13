@@ -3,13 +3,11 @@ package com.kirago.generator.utils;
 import com.kirago.generator.config.XMLConfig;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import lombok.Data;
+import freemarker.template.TemplateExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.util.HashMap;
@@ -21,9 +19,12 @@ public class XMLConfigUtil {
     
     private final String GENERATOR_CONFIG_FTL_FILE = "generatorConfig.ftl";
     
-    private final String GENERATOR_CONFIG_OUT_FILE = "generatorConfig.xml";
-            
+    private final String GENERATOR_CONFIG_OUT_FILE = "src/main/resources/generator/test.txt";
+    
     private Configuration configuration;
+    
+    @Autowired
+    private XMLConfig xmlConfig;
     
     
     public XMLConfigUtil(){
@@ -37,13 +38,13 @@ public class XMLConfigUtil {
         try {
             configuration.setClassForTemplateLoading( this.getClass(), "/generator/template" );
             Template template = configuration.getTemplate("test.ftl", "utf-8");
-            String file = ResourceUtils.getURL("classpath:").getPath() + "test.txt";
-            File outPutFile = new File(file);
+//            String file = ResourceUtils.getURL("classpath:").getPath() + "test.txt";
+            File outPutFile = new File(GENERATOR_CONFIG_OUT_FILE);
             if(!outPutFile.exists()){
-                FileUtils.touch(new File(file));
+                FileUtils.touch(outPutFile);
             }
             Writer o = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(ResourceUtils.getFile("classpath:test.txt")),
+                    new FileOutputStream(outPutFile),
                     "utf-8"),10240);
             template.process(dataMap, o);
             o.close();
@@ -54,7 +55,7 @@ public class XMLConfigUtil {
     
     private  Map<String, Object> createDataMap(){
         Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("dbconfig.userId", XMLConfig.DBCONFIG_USERID);
+        dataMap.put("config", xmlConfig);
         return dataMap;
     }
     

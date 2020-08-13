@@ -26,6 +26,7 @@ public class SpringbootGeneratorStarterApplication {
             generatorPlugin.generator(); 
         }catch (Exception e){
             log.error(e.getMessage());
+            e.printStackTrace();
         }
     }
 

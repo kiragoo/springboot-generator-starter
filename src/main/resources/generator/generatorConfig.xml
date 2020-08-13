@@ -31,7 +31,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/sc1"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/generator"
                         userId="root"
                         password="root">
             <property name="nullCatalogMeansCurrent" value="true"/>
@@ -61,7 +61,7 @@
         </javaClientGenerator>
 
         <!--每个表的生成策略-->
-        <table tableName="user"></table>
+        <table tableName="test"></table>
 
 
     </context>

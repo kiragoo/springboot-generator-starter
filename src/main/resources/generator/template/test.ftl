@@ -1,1 +1,3 @@
-${dbconfig.userId}
+<#if config??>
+${config.userid}
+</#if>

@@ -228,7 +228,7 @@ public class ExtendPlugin extends MapperPlugin {
         freemarker.template.Configuration cfg = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_28);
         cfg.setDirectoryForTemplateLoading(new File(getProperties().getProperty("freeMarkerTemplatePath")));
         cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
+//        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
         return cfg;
     }
 
